@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klasemen 3 Tim</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #f9f9f9; /* Background color for better contrast */
+        }
+        
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+            transition: transform 0.3s; /* Smooth scaling effect */
+        }
+        
+        table:hover {
+            transform: scale(1.02); /* Slightly scale up on hover */
+        }
+        
+        th, td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+            transition: background-color 0.3s; /* Smooth background color transition */
+        }
+        
+        th {
+            background-color: #ff00fb; /* Change header color */
+            color: white; /* Change text color for better contrast */
+        }
+        
+        td:hover {
+            background-color: #e0e0e0; /* Light gray background on hover */
+        }
+        
+        h1, h2 {
+            font-family: 'Arial', sans-serif;
+            color: #333; /* Text color */
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-out; /* Apply fadeIn animation */
+        }
+        
+        /* Animation for fade-in effect */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px); /* Start from above */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0); /* End at normal position */
+            }
+        }
+        
+        /* Adding a slight bounce effect for h2 */
+        h2 {
+            animation: bounce 1s ease-in-out infinite; /* Apply bounce animation */
+        }
+        
+        /* Animation for bounce effect */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px); /* Move up */
+            }
+        }
+        
+
+        button {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #18181a;
+            color: #18181a;
+            display: inline-block;
+            font-size: 15px;
+            line-height: 15px;
+            padding: 18px 18px 17px;
+            text-decoration: none;
+            cursor: pointer;
+            background: #fff;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        
+        button span:first-child {
+            position: relative;
+            transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
+            z-index: 10;
+        }
+        
+        button span:last-child {
+            color: white;
+            display: block;
+            position: absolute;
+            bottom: 0;
+            transition: all 500ms cubic-bezier(0.48, 0, 0.12, 1);
+            z-index: 100;
+            opacity: 0;
+            top: 50%;
+            left: 50%;
+            transform: translateY(225%) translateX(-50%);
+            height: 14px;
+            line-height: 13px;
+        }
+        
+        button:after {
+            content: "";
+            position: absolute;
+            bottom: -50%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(0, 8, 120);
+            transform-origin: bottom center;
+            transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
+            transform: skewY(9.3deg) scaleY(0);
+            z-index: 50;
+        }
+        
+        button:hover:after {
+            transform-origin: bottom center;
+            transform: skewY(9.3deg) scaleY(2);
+        }
+        
+        button:hover span:last-child {
+            transform: translateX(-50%) translateY(-100%);
+            opacity: 1;
+            transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Klasemen Liga Uno Profesional Master Indonesia</h1>
+    <button onclick="resetStats()">Reset</button>
+    <button onclick="undoLastAction()">Batalkan Tindakan Terakhir</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Tim</th>
+                <th>Poin</th>
+                <th>Menang</th>
+                <th>Runner Up</th>
+                <th>Kalah</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="team-standings">
+            <tr id="team1">
+                <td>Bang Jago</td>
+                <td class="points">0</td>
+                <td class="wins">0</td>
+                <td class="runner-ups">0</td>
+                <td class="losses">0</td>
+                <td>
+                    <button onclick="updateStats('team1', 3)">Menang</button>
+                    <button onclick="updateStats('team1', 1)">Runner Up</button>
+                    <button onclick="updateStats('team1', 0)">Kalah</button>
+                </td>
+            </tr>
+            <tr id="team2">
+                <td>King Farhan</td>
+                <td class="points">0</td>
+                <td class="wins">0</td>
+                <td class="runner-ups">0</td>
+                <td class="losses">0</td>
+                <td>
+                    <button onclick="updateStats('team2', 3)">Menang</button>
+                    <button onclick="updateStats('team2', 1)">Runner Up</button>
+                    <button onclick="updateStats('team2', 0)">Kalah</button>
+                </td>
+            </tr>
+            <tr id="team3">
+                <td>Lord Fitra</td>
+                <td class="points">0</td>
+                <td class="wins">0</td>
+                <td class="runner-ups">0</td>
+                <td class="losses">0</td>
+                <td>
+                    <button onclick="updateStats('team3', 3)">Menang</button>
+                    <button onclick="updateStats('team3', 1)">Runner Up</button>
+                    <button onclick="updateStats('team3', 0)">Kalah</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Riwayat Pertandingan</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Tim</th>
+                <th>Total Pertandingan</th>
+                <th>Menang</th>
+                <th>Runner Up</th>
+                <th>Kalah</th>
+            </tr>
+        </thead>
+        <tbody id="history">
+            <tr id="history-team1">
+                <td>Bang Jago</td>
+                <td class="matches">0</td>
+                <td class="wins">0</td>
+                <td class="runner-ups">0</td>
+                <td class="losses">0</td>
+            </tr>
+            <tr id="history-team2">
+                <td>King Farhan</td>
+                <td class="matches">0</td>
+                <td class="wins">0</td>
+                <td class="runner-ups">0</td>
+                <td class="losses">0</td>
+            </tr>
+            <tr id="history-team3">
+                <td>Lord Fitra</td>
+                <td class="matches">0</td>
+                <td class="wins">0</td>
+                <td class="runner-ups">0</td>
+                <td class="losses">0</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        let teamData = loadFromLocalStorage();
+        let actionHistory = []; // To store history of actions
+
+        // Load data from localStorage
+        function loadFromLocalStorage() {
+            return JSON.parse(localStorage.getItem('teamData')) || {
+                team1: { points: 0, wins: 0, runnerUps: 0, losses: 0, matches: 0 },
+                team2: { points: 0, wins: 0, runnerUps: 0, losses: 0, matches: 0 },
+                team3: { points: 0, wins: 0, runnerUps: 0, losses: 0, matches: 0 },
+            };
+        }
+
+        function saveToLocalStorage(data) {
+            localStorage.setItem('teamData', JSON.stringify(data));
+        }
+
+        function updateStats(teamId, points) {
+            const team = teamData[teamId];
+
+            actionHistory.push({ teamId, points, ...team }); // Save current state for undo
+
+            team.points += points;
+            team.matches += 1;
+            if (points === 3) {
+                team.wins += 1;
+            } else if (points === 1) {
+                team.runnerUps += 1;
+            } else {
+                team.losses += 1;
+            }
+
+            saveToLocalStorage(teamData);
+            renderTables();
+        }
+
+        function resetStats() {
+            teamData = {
+                team1: { points: 0, wins: 0, runnerUps: 0, losses: 0, matches: 0 },
+                team2: { points: 0, wins: 0, runnerUps: 0, losses: 0, matches: 0 },
+                team3: { points: 0, wins: 0, runnerUps: 0, losses: 0, matches: 0 },
+            };
+
+            actionHistory = []; // Clear action history
+
+            saveToLocalStorage(teamData);
+            renderTables();
+        }
+
+        function undoLastAction() {
+            if (actionHistory.length === 0) {
+                alert("Tidak ada tindakan yang dapat dibatalkan.");
+                return;
+            }
+
+            const lastAction = actionHistory.pop();
+            const team = teamData[lastAction.teamId];
+
+            // Revert to previous state
+            team.points = lastAction.points;
+            team.wins = lastAction.wins;
+            team.runnerUps = lastAction.runnerUps;
+            team.losses = lastAction.losses;
+            team.matches = lastAction.matches;
+
+            saveToLocalStorage(teamData);
+            renderTables();
+        }
+
+        function renderTables() {
+            // Sort teams by points in descending order
+            const sortedTeams = Object.entries(teamData).sort(([, a], [, b]) => b.points - a.points);
+
+            // Update main standings table
+            const standingsTable = document.getElementById('team-standings');
+            standingsTable.innerHTML = '';
+
+            sortedTeams.forEach(([teamId, team]) => {
+                const teamName = teamId === 'team1' ? 'Bang Jago' : teamId === 'team2' ? 'King Farhan' : 'Lord Fitra';
+                const row = document.createElement('tr');
+                row.id = teamId;
+                row.innerHTML = `
+                    <td>${teamName}</td>
+                    <td class="points">${team.points}</td>
+                    <td class="wins">${team.wins}</td>
+                    <td class="runner-ups">${team.runnerUps}</td>
+                    <td class="losses">${team.losses}</td>
+                    <td>
+                        <button onclick="updateStats('${teamId}', 3)">Menang</button>
+                        <button onclick="updateStats('${teamId}', 1)">Runner Up</button>
+                        <button onclick="updateStats('${teamId}', 0)">Kalah</button>
+                    </td>
+                `;
+                standingsTable.appendChild(row);
+            });
+
+            // Update history table
+            const historyTable = document.getElementById('history');
+            historyTable.innerHTML = '';
+
+            Object.entries(teamData).forEach(([teamId, team]) => {
+                const teamName = teamId === 'team1' ? 'Bang Jago' : teamId === 'team2' ? 'King Farhan' : 'Lord Fitra';
+                const row = document.createElement('tr');
+                row.id = `history-${teamId}`;
+                row.innerHTML = `
+                    <td>${teamName}</td>
+                    <td class="matches">${team.matches}</td>
+                    <td class="wins">${team.wins}</td>
+                    <td class="runner-ups">${team.runnerUps}</td>
+                    <td class="losses">${team.losses}</td>
+                `;
+                historyTable.appendChild(row);
+            });
+        }
+
+        // Initial render
+        renderTables();
+    </script>
+</body>
+</html>
